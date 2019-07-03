@@ -48,8 +48,8 @@ public:
   uint8_t status() const {return _status;}
   uint16_t bridge_data() const {return _bridge_data;}
   float pressure() const {return _pressure;}
-  char* unit() const;
-  char* error_msg() const;
+  const char* unit() const;
+  const char* error_msg() const;
 
 private:
   // I2C address (refer to datasheet)

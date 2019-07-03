@@ -29,7 +29,7 @@ void Honeywell_ABP::update() {
   while(Wire.available()) {
     uint8_t data_byte_1 = Wire.read();
     uint8_t data_byte_2 = Wire.read();
-    _status = data_byte_1 >> 6;
+    _status = Honeywell_ABP::Status(data_byte_1 >> 6);
     _bridge_data = (data_byte_1 << 8 | data_byte_2) & 0x3FFF;
   }
   _pressure = raw_to_pressure(_bridge_data);
@@ -40,7 +40,7 @@ float Honeywell_ABP::raw_to_pressure(uint16_t output) {
     * (_p_max - _p_min) / (_output_max - _output_min) + _p_min;
 }
 
-char* Honeywell_ABP::unit() const {
+const char* Honeywell_ABP::unit() const {
   switch(_unit) {
     case UNIT_PSI:
       return "psi";
@@ -61,7 +61,7 @@ char* Honeywell_ABP::unit() const {
   }
 }
 
-char* Honeywell_ABP::error_msg() const {
+const char* Honeywell_ABP::error_msg() const {
   switch(_status) {
     case STATUS_NOERROR:
       return "No error";
