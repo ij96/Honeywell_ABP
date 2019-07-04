@@ -1,0 +1,40 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Honeywell_ABP	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+set_unit	KEYWORD2
+raw_to_pressure	KEYWORD2
+setRepeatTime	KEYWORD2
+update	KEYWORD2
+address	KEYWORD2
+status	KEYWORD2
+bridge_data	KEYWORD2
+pressure	KEYWORD2
+unit	KEYWORD2
+error_msg	KEYWORD2
+
+######################################
+# Constants (LITERAL1)
+#######################################
+
+UNIT_PSI	LITERAL1
+UNIT_PA	LITERAL1
+UNIT_KPA	LITERAL1
+UNIT_MPA	LITERAL1
+UNIT_MBAR	LITERAL1
+UNIT_BAR	LITERAL1
+UNIT_UNKNOWN	LITERAL1
+STATUS_NOERROR	LITERAL1
+STATUS_COMMANDMODE	LITERAL1
+STATUS_STALEDATA	LITERAL1
+STATUS_DIAGNOTIC	LITERAL1
