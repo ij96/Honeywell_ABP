@@ -25,53 +25,65 @@ void Honeywell_ABP::set_unit(String unit_string) {
 }
 
 void Honeywell_ABP::update() {
-  Wire.requestFrom(_address, (uint8_t)2);
-  while(Wire.available()) {
+  Wire.requestFrom(_address, (uint8_t)4);
+  while (Wire.available())
+  {
     uint8_t data_byte_1 = Wire.read();
     uint8_t data_byte_2 = Wire.read();
+    uint8_t data_byte_3 = Wire.read();
+    uint8_t data_byte_4 = Wire.read();
     _status = Honeywell_ABP::Status(data_byte_1 >> 6);
     _bridge_data = (data_byte_1 << 8 | data_byte_2) & 0x3FFF;
+    _temperature_data = ((data_byte_3 << 8) | (data_byte_4)) >> 5;
   }
   _pressure = raw_to_pressure(_bridge_data);
+  _temperature = raw_to_temperature(_temperature_data);
 }
 
 float Honeywell_ABP::raw_to_pressure(uint16_t output) {
-  return float(constrain(output, _output_min, _output_max) - _output_min)
-    * (_p_max - _p_min) / (_output_max - _output_min) + _p_min;
+  return float(constrain(output, _output_min, _output_max) - _output_min) * (_p_max - _p_min) / (_output_max - _output_min) + _p_min;
 }
 
-const char* Honeywell_ABP::unit() const {
-  switch(_unit) {
-    case UNIT_PSI:
-      return "psi";
-    case UNIT_PA:
-      return "Pa";
-    case UNIT_KPA:
-      return "kPa";
-    case UNIT_MPA:
-      return "MPa";
-    case UNIT_MBAR:
-      return "mbar";
-    case UNIT_BAR:
-      return "bar";
-    case UNIT_UNKNOWN:
-      return "(unknown unit)";
-    default:
-      return "(unknown unit)";
+const char *Honeywell_ABP::unit() const
+{
+  switch (_unit)
+  {
+  case UNIT_PSI:
+    return "psi";
+  case UNIT_PA:
+    return "Pa";
+  case UNIT_KPA:
+    return "kPa";
+  case UNIT_MPA:
+    return "MPa";
+  case UNIT_MBAR:
+    return "mbar";
+  case UNIT_BAR:
+    return "bar";
+  case UNIT_UNKNOWN:
+    return "(unknown unit)";
+  default:
+    return "(unknown unit)";
   }
 }
 
-const char* Honeywell_ABP::error_msg() const {
-  switch(_status) {
-    case STATUS_NOERROR:
-      return "No error";
-    case STATUS_COMMANDMODE:
-      return "Device in command mode (this mode should not be seen during normal operation)";
-    case STATUS_STALEDATA:
-      return "Stale data";
-    case STATUS_DIAGNOTIC:
-      return "Diagnostic condition";
-    default:
-      return "Unknown error";
+const char *Honeywell_ABP::error_msg() const
+{
+  switch (_status)
+  {
+  case STATUS_NOERROR:
+    return "No error";
+  case STATUS_COMMANDMODE:
+    return "Device in command mode (this mode should not be seen during normal operation)";
+  case STATUS_STALEDATA:
+    return "Stale data";
+  case STATUS_DIAGNOTIC:
+    return "Diagnostic condition";
+  default:
+    return "Unknown error";
   }
+}
+
+float Honeywell_ABP::raw_to_temperature(uint16_t output) {
+  return (output * 0.0977) - 50;
 }

@@ -41,6 +41,7 @@ public:
   void set_unit(String unit_string);
 
   float raw_to_pressure(uint16_t output);
+  float raw_to_temperature(uint16_t output);
   void update();
 
   // getter functions
@@ -48,6 +49,7 @@ public:
   uint8_t status() const {return _status;}
   uint16_t bridge_data() const {return _bridge_data;}
   float pressure() const {return _pressure;}
+  float temperature() const {return _temperature;}
   const char* unit() const;
   const char* error_msg() const;
 
@@ -67,9 +69,11 @@ private:
   uint16_t _output_max = 0x399A; // 90% of 2^14
 
   // sensor reading
-  Status _status;         // sensor status
-  uint16_t _bridge_data;  // raw bridge data (14-bit)
-  float _pressure;        // pressure converted from raw data
+  Status _status;             // sensor status
+  uint16_t _bridge_data;      // raw bridge data (14-bit)
+  uint16_t _temperature_data; // raw temperature data (14-bit)
+  float _pressure;            // pressure converted from raw data
+  float _temperature;         // temperature converted from raw data
 };
 
 #endif //HONEYWELL_ABP_H
