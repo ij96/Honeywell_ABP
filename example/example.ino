@@ -3,10 +3,10 @@
 // create Honeywell_ABP instance
 // refer to datasheet for parameters
 Honeywell_ABP abp(
-  0x28,   // I2C address
-  0,      // minimum pressure
-  1,      // maximum pressure
-  "psi"   // pressure unit
+    0x28,   // I2C address
+    0,      // minimum pressure
+    1,      // maximum pressure
+    "psi"   // pressure unit
 );
 
 void setup() {
@@ -26,6 +26,9 @@ void loop() {
   Serial.print(abp.pressure());
   Serial.print(" ");
   Serial.println(abp.unit());
-
+  Serial.print(" ");
+  Serial.print("Temperature: ");
+  Serial.print(abp.temperature());
+  Serial.println(" ºC ");
   delay(500);
 }
